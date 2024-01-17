@@ -3,7 +3,7 @@
 #include <GyverOLED.h>
 GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled;
 
-#define adc (analogRead(pin_A0) / 4.096 * 2.560) * 1.65
+#define adc (analogRead(pin_A0) / 4.096 * 2.560) * 2.35
 
 #define pin_R 13  // пин нагрузки
 #define pin_A0 A1 // аналоговый пин
@@ -52,7 +52,7 @@ const uint8_t frame0_16x16[] PROGMEM = {
 
 void setup()
 {
-  //Serial.begin(11520);
+  Serial.begin(11520);
   oled.init();             // инициализация
   oled.clear();            // очистить дисплей (или буфер)
 
@@ -96,7 +96,7 @@ void impedance()
   if (adc > 2500)
   {
     loadCycle();
-    i_load = (u_bat_r - u_mosfeet) / r_load;
+    i_load = 1.132;
     r_bat = (u_bat - u_bat_r) / i_load;
   }
   else
@@ -118,9 +118,9 @@ void led()
   oled.print(u_bat_r / 1000, 2); //
   oled.print("v");
 
-  oled.setCursorXY(30, 20); // курсор в (X, Y)
+  oled.setCursorXY(35, 20); // курсор в (X, Y)
   oled.print(i_load, 2);    //
-  oled.print(" a  ");
+  oled.print("a  ");
 
   oled.setCursorXY(10, 45); // курсор в (X, Y)
   r_bat < 10 ? oled.print("00") : oled.print("");
